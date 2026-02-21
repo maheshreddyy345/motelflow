@@ -2,8 +2,14 @@ const express = require('express');
 const router = express.Router();
 const { auth, authorize } = require('../middleware/auth');
 
-// Initialize Stripe with secret key
-const stripe = require('stripe')(process.env.STRIPE_SECRET_KEY);
+// Initialize Stripe with secret key (gracefully handle missing key)
+let stripe = null;
+if (process.env.STRIPE_SECRET_KEY) {
+    stripe = require('stripe')(process.env.STRIPE_SECRET_KEY);
+    console.log('✅ Stripe initialized');
+} else {
+    console.warn('⚠️  STRIPE_SECRET_KEY not set — payment routes will be unavailable');
+}
 
 // All payment routes require auth
 const paymentAuth = [auth, authorize('owner', 'manager', 'frontdesk')];
@@ -18,6 +24,9 @@ router.get('/config', auth, async (req, res) => {
 // POST /api/payments/create-intent — Create a Stripe PaymentIntent
 router.post('/create-intent', ...paymentAuth, async (req, res) => {
     try {
+        if (!stripe) {
+            return res.status(503).json({ error: 'Stripe is not configured. Set STRIPE_SECRET_KEY environment variable.' });
+        }
         const { amount, reservationId, guestName, confirmationNumber } = req.body;
 
         if (!amount || amount <= 0) {
