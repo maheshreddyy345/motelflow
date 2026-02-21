@@ -16,13 +16,16 @@ const folioRoutes = require('./routes/folio');
 const reportsRoutes = require('./routes/reports');
 const paymentsRoutes = require('./routes/payments');
 const nightAuditRoutes = require('./routes/night-audit');
+const path = require('path');
 
 const app = express();
 const PORT = process.env.PORT || 5000;
 
+console.log(`[BOOT] Starting Motel Flow... PORT=${PORT}, NODE_ENV=${process.env.NODE_ENV}`);
+
 // Middleware
 app.use(cors({
-    origin: process.env.CLIENT_URL || 'http://localhost:5173',
+    origin: process.env.CLIENT_URL || true, // true = allow all origins in production
     credentials: true
 }));
 app.use(express.json());
@@ -31,6 +34,11 @@ app.use(express.json());
 app.use((req, res, next) => {
     console.log(`${new Date().toISOString()} - ${req.method} ${req.path}`);
     next();
+});
+
+// ── Health check (MUST be before any catch-all) ──
+app.get('/api/health', (req, res) => {
+    res.json({ status: 'ok', timestamp: new Date().toISOString() });
 });
 
 // Routes
@@ -44,27 +52,6 @@ app.use('/api/folio', folioRoutes);
 app.use('/api/reports', reportsRoutes);
 app.use('/api/payments', paymentsRoutes);
 app.use('/api/night-audit', nightAuditRoutes);
-
-// ── Production: Serve React frontend ──
-const path = require('path');
-if (process.env.NODE_ENV === 'production') {
-    app.use(express.static(path.join(__dirname, '../client/dist')));
-
-    // Catch-all: send all non-API requests to React
-    // Express 5 uses path-to-regexp v8 which requires /(*.) or fallback middleware
-    app.use((req, res, next) => {
-        if (!req.path.startsWith('/api')) {
-            res.sendFile(path.join(__dirname, '../client/dist/index.html'));
-        } else {
-            next();
-        }
-    });
-}
-
-// Health check
-app.get('/api/health', (req, res) => {
-    res.json({ status: 'ok', timestamp: new Date().toISOString() });
-});
 
 // Dashboard summary endpoint
 app.get('/api/dashboard', async (req, res) => {
@@ -130,12 +117,24 @@ app.use((err, req, res, next) => {
     res.status(500).json({ error: 'Internal server error' });
 });
 
-// 404 handler
-app.use((req, res) => {
-    res.status(404).json({ error: 'Endpoint not found' });
-});
+// ── Production: Serve React frontend (MUST be LAST) ──
+if (process.env.NODE_ENV === 'production') {
+    const clientDist = path.join(__dirname, '../client/dist');
+    console.log(`[BOOT] Production mode — serving static files from ${clientDist}`);
+    app.use(express.static(clientDist));
 
-// Initialize database and start server
+    // Catch-all: send React index.html for non-API routes
+    app.use((req, res) => {
+        res.sendFile(path.join(clientDist, 'index.html'));
+    });
+} else {
+    // 404 handler (dev only — in prod the React SPA handles all routes)
+    app.use((req, res) => {
+        res.status(404).json({ error: 'Endpoint not found' });
+    });
+}
+
+// Initialize database
 const initDatabase = async () => {
     try {
         // Check if owner user exists
@@ -174,19 +173,22 @@ const initDatabase = async () => {
     }
 };
 
-// Start server
-app.listen(PORT, '0.0.0.0', async () => {
+// Start server — MUST bind immediately, DB init happens async after
+app.listen(PORT, '0.0.0.0', () => {
     console.log(`
 ╔══════════════════════════════════════════════════╗
 ║                                                  ║
 ║   🏨 MOTEL FLOW - Property Management System     ║
 ║                                                  ║
-║   Server running on http://localhost:${PORT}       ║
+║   Server running on http://0.0.0.0:${PORT}         ║
 ║                                                  ║
 ╚══════════════════════════════════════════════════╝
     `);
 
-    await initDatabase();
+    // Do NOT await — let the port binding complete first so Cloud Run health checks pass
+    initDatabase().catch(err => {
+        console.error('DB init failed (non-fatal):', err.message);
+    });
 });
 
 module.exports = app;
