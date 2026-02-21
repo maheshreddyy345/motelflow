@@ -1,4 +1,6 @@
-const API_URL = 'http://localhost:5000/api';
+// In production (Cloud Run), frontend and API are on the same origin, so use relative path
+// In development, the API runs on a different port (localhost:5000)
+const API_URL = import.meta.env.PROD ? '/api' : 'http://localhost:5000/api';
 
 // Get auth token from localStorage
 const getToken = () => localStorage.getItem('token');
