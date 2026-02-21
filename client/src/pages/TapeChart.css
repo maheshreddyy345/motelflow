@@ -1,0 +1,298 @@
+.tape-chart-page .page-header {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    margin-bottom: var(--space-lg);
+    flex-wrap: wrap;
+    gap: var(--space-md);
+}
+
+.chart-controls {
+    display: flex;
+    gap: var(--space-sm);
+    align-items: center;
+    flex-wrap: wrap;
+}
+
+.tape-chart-container {
+    background: var(--color-bg-secondary);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-lg);
+    overflow: hidden;
+}
+
+.tape-chart {
+    overflow-x: auto;
+    min-width: 100%;
+}
+
+.tape-header {
+    display: flex;
+    background: var(--color-bg-tertiary);
+    border-bottom: 2px solid var(--color-border);
+    position: sticky;
+    top: 0;
+    z-index: 10;
+}
+
+.tape-header-cell {
+    min-width: 80px;
+    padding: var(--space-sm);
+    text-align: center;
+    border-right: 1px solid var(--color-border);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+.tape-header-cell.room-header {
+    min-width: 100px;
+    font-weight: 600;
+    background: var(--color-bg-secondary);
+    position: sticky;
+    left: 0;
+    z-index: 11;
+}
+
+.tape-head.legend-color.confirmed {
+    background: var(--booking-confirmed);
+}
+
+.legend-color.checked_in {
+    background: var(--booking-checked-in);
+}
+
+.tape-booking.clickable {
+    cursor: pointer;
+    transition: transform 0.1s, box-shadow 0.1s;
+}
+
+.tape-booking.clickable:hover {
+    transform: scale(1.02);
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+    z-index: 10;
+}
+
+.legend-hint {
+    font-size: var(--font-size-sm);
+    color: var(--color-text-muted);
+    font-style: italic;
+    margin-left: auto;
+}
+
+.tape-header-cell.today {
+    background: var(--color-primary-light);
+}
+
+.tape-header-cell.weekend {
+    background: rgba(168, 85, 247, 0.1);
+}
+
+.day-name {
+    font-size: var(--font-size-xs);
+    color: var(--color-text-secondary);
+}
+
+.day-num {
+    font-size: var(--font-size-lg);
+    font-weight: 600;
+}
+
+.floor-group {
+    border-bottom: 2px solid var(--color-border);
+}
+
+.floor-label {
+    padding: var(--space-xs) var(--space-md);
+    background: var(--color-bg-primary);
+    font-size: var(--font-size-xs);
+    font-weight: 600;
+    color: var(--color-text-secondary);
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.tape-row {
+    display: flex;
+    border-bottom: 1px solid var(--color-border);
+}
+
+.tape-row:last-child {
+    border-bottom: none;
+}
+
+.tape-room-cell {
+    min-width: 100px;
+    padding: var(--space-sm);
+    background: var(--color-bg-secondary);
+    border-right: 1px solid var(--color-border);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    position: sticky;
+    left: 0;
+    z-index: 5;
+}
+
+.room-num {
+    font-weight: 600;
+    font-size: var(--font-size-sm);
+}
+
+.room-type-mini {
+    font-size: var(--font-size-xs);
+    color: var(--color-text-muted);
+}
+
+.tape-day-cell {
+    min-width: 80px;
+    height: 44px;
+    border-right: 1px solid var(--color-border);
+    position: relative;
+    background: var(--color-bg-primary);
+}
+
+.tape-day-cell.today {
+    background: rgba(59, 130, 246, 0.05);
+}
+
+.tape-day-cell.weekend {
+    background: rgba(168, 85, 247, 0.03);
+}
+
+.tape-day-cell.empty:hover {
+    background: var(--color-bg-tertiary);
+    cursor: pointer;
+}
+
+.tape-day-cell.covered {
+    background: transparent;
+}
+
+.tape-booking {
+    position: absolute;
+    top: 4px;
+    bottom: 4px;
+    left: 4px;
+    background: linear-gradient(135deg, var(--color-primary), #1d4ed8);
+    border-radius: var(--radius-sm);
+    display: flex;
+    align-items: center;
+    padding: 0 var(--space-sm);
+    font-size: var(--font-size-xs);
+    font-weight: 500;
+    color: white;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    z-index: 2;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+    cursor: pointer;
+    transition: transform var(--transition-fast);
+}
+
+.tape-booking:hover {
+    transform: scaleY(1.1);
+    z-index: 3;
+}
+
+.tape-booking.checked_in {
+    background: linear-gradient(135deg, var(--color-success), #16a34a);
+}
+
+.tape-booking.confirmed {
+    background: linear-gradient(135deg, var(--color-warning), #d97706);
+}
+
+.chart-legend {
+    display: flex;
+    gap: var(--space-lg);
+    margin-top: var(--space-lg);
+    justify-content: center;
+}
+
+.chart-legend .legend-item {
+    display: flex;
+    align-items: center;
+    gap: var(--space-sm);
+    font-size: var(--font-size-sm);
+}
+
+.chart-legend .legend-color {
+    width: 24px;
+    height: 16px;
+    border-radius: var(--radius-sm);
+}
+
+.chart-legend .legend-color.confirmed {
+    background: linear-gradient(135deg, var(--color-warning), #d97706);
+}
+
+.chart-legend .legend-color.checked_in {
+    background: linear-gradient(135deg, var(--color-success), #16a34a);
+}
+
+.chart-legend .legend-color.empty-cell {
+    background: var(--color-bg-tertiary);
+    border: 1px dashed var(--color-border);
+}
+
+/* Clickable empty cells */
+.tape-day-cell.clickable-cell {
+    cursor: pointer;
+    transition: background-color 0.2s;
+}
+
+.tape-day-cell.clickable-cell:hover {
+    background: rgba(59, 130, 246, 0.15) !important;
+}
+
+.tape-day-cell.clickable-cell:hover::after {
+    content: '+';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-size: 1.25rem;
+    font-weight: bold;
+    color: var(--color-primary);
+    opacity: 0.7;
+}
+
+/* Room preview in modal */
+.room-preview {
+    display: flex;
+    align-items: center;
+    gap: var(--space-md);
+    padding: var(--space-md);
+    background: var(--color-bg-tertiary);
+    border-radius: var(--radius-md);
+    margin-bottom: var(--space-md);
+}
+
+.room-badge {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 50px;
+    height: 50px;
+    background: linear-gradient(135deg, var(--color-primary), #1d4ed8);
+    border-radius: var(--radius-md);
+    color: white;
+    font-weight: 700;
+    font-size: 1.25rem;
+}
+
+/* Form row spacing */
+.form-row {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: var(--space-md);
+    margin-bottom: var(--space-md);
+}
+
+.form-row:last-child {
+    margin-bottom: 0;
+}

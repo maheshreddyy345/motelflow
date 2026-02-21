@@ -1,0 +1,24 @@
+{
+    "name": "motel-flow",
+    "version": "1.0.0",
+    "description": "Motel Flow – Property Management System",
+    "scripts": {
+        "install:all": "cd server && npm install && cd ../client && npm install",
+        "build:client": "cd client && npm run build",
+        "start": "cd server && node index.js",
+        "dev:server": "cd server && npm run dev",
+        "dev:client": "cd client && npm run dev -- --port 5173",
+        "dev": "echo Use two terminals: npm run dev:server AND npm run dev:client"
+    },
+    "engines": {
+        "node": ">=18.0.0"
+    },
+    "keywords": [
+        "hotel",
+        "motel",
+        "pms",
+        "property-management"
+    ],
+    "author": "Mahesh Reddy",
+    "license": "MIT"
+}

@@ -1,0 +1,284 @@
+.dashboard-header {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    margin-bottom: var(--space-xl);
+}
+
+.dashboard-header h1 {
+    margin-bottom: var(--space-xs);
+}
+
+.occupancy-badge {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: var(--space-md) var(--space-lg);
+    background: linear-gradient(135deg, var(--color-primary), #1d4ed8);
+    border-radius: var(--radius-lg);
+    box-shadow: 0 4px 15px rgba(59, 130, 246, 0.3);
+}
+
+.occupancy-value {
+    font-size: var(--font-size-2xl);
+    font-weight: 700;
+    color: white;
+}
+
+.occupancy-label {
+    font-size: var(--font-size-xs);
+    color: rgba(255, 255, 255, 0.8);
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+.stats-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: var(--space-md);
+    margin-bottom: var(--space-xl);
+}
+
+@media (max-width: 1200px) {
+    .stats-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+.stat-content {
+    flex: 1;
+}
+
+.dashboard-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: var(--space-md);
+}
+
+@media (max-width: 1000px) {
+    .dashboard-grid {
+        grid-template-columns: 1fr;
+    }
+}
+
+.room-status-summary {
+    display: flex;
+    gap: var(--space-xl);
+    flex-wrap: wrap;
+}
+
+.status-item {
+    display: flex;
+    align-items: center;
+    gap: var(--space-sm);
+}
+
+.status-dot {
+    width: 12px;
+    height: 12px;
+    border-radius: var(--radius-full);
+}
+
+.status-dot.vacant-clean {
+    background: var(--status-vacant-clean);
+}
+
+.status-dot.vacant-dirty {
+    background: var(--status-vacant-dirty);
+}
+
+.status-dot.occupied {
+    background: var(--status-occupied);
+}
+
+.status-dot.out-of-order {
+    background: var(--status-out-of-order);
+}
+
+.status-label {
+    color: var(--color-text-secondary);
+    font-size: var(--font-size-sm);
+}
+
+.status-count {
+    font-weight: 700;
+    font-size: var(--font-size-lg);
+    margin-left: var(--space-xs);
+}
+
+.stat-icon.info {
+    background: var(--color-info-light);
+    color: var(--color-info);
+}
+
+/* Clickable rows */
+.table-clickable .clickable-row {
+    cursor: pointer;
+    transition: background var(--transition-fast);
+}
+
+.table-clickable .clickable-row:hover {
+    background: var(--color-bg-tertiary);
+}
+
+.guest-name {
+    font-weight: 500;
+}
+
+.guest-phone {
+    font-size: var(--font-size-xs);
+}
+
+.room-badge {
+    background: var(--color-primary);
+    color: white;
+    padding: 0.2rem 0.5rem;
+    border-radius: var(--radius-sm);
+    font-weight: 600;
+    font-size: var(--font-size-sm);
+}
+
+/* Clickable stat cards */
+.stat-card.clickable {
+    cursor: pointer;
+    transition: transform 0.2s, box-shadow 0.2s, border-color 0.2s;
+    position: relative;
+}
+
+.stat-card.clickable:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+    border-color: var(--color-primary);
+}
+
+.stat-card.expanded {
+    border-color: var(--color-primary);
+    box-shadow: 0 4px 20px rgba(59, 130, 246, 0.2);
+}
+
+.stat-expand-icon {
+    font-size: 0.75rem;
+    color: var(--color-text-muted);
+    transition: transform 0.2s;
+}
+
+.stat-alert-badge {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    background: var(--color-danger);
+    color: white;
+    font-size: 0.65rem;
+    font-weight: 700;
+    width: 18px;
+    height: 18px;
+    border-radius: 50%;
+    margin-left: 0.5rem;
+    animation: pulse 2s infinite;
+}
+
+@keyframes pulse {
+
+    0%,
+    100% {
+        opacity: 1;
+    }
+
+    50% {
+        opacity: 0.6;
+    }
+}
+
+/* Expanded content */
+.expanded-content {
+    animation: slideDown 0.3s ease-out;
+    margin-bottom: var(--space-lg);
+}
+
+@keyframes slideDown {
+    from {
+        opacity: 0;
+        transform: translateY(-10px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.empty-state {
+    text-align: center;
+    color: var(--color-text-muted);
+    padding: var(--space-lg);
+    font-style: italic;
+}
+
+/* Room grid */
+.room-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
+    gap: var(--space-sm);
+    padding: var(--space-md) 0;
+}
+
+.room-card {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: var(--space-md);
+    background: var(--color-bg-tertiary);
+    border-radius: var(--radius-md);
+    border: 1px solid var(--color-border);
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+.room-card:hover {
+    background: var(--color-primary);
+    color: white;
+    transform: scale(1.05);
+}
+
+.room-card .room-number {
+    font-size: 1.25rem;
+    font-weight: 700;
+}
+
+.room-card .room-type {
+    font-size: 0.7rem;
+    text-transform: uppercase;
+    opacity: 0.8;
+}
+
+.room-card .room-floor {
+    font-size: 0.65rem;
+    opacity: 0.6;
+}
+
+/* Clickable status items */
+.status-item.clickable {
+    cursor: pointer;
+    padding: var(--space-sm);
+    border-radius: var(--radius-md);
+    transition: background 0.2s;
+}
+
+.status-item.clickable:hover {
+    background: var(--color-bg-tertiary);
+}
+
+/* Button margin */
+.ml-sm {
+    margin-left: 0.5rem;
+}
+
+/* Clickable rows in tables */
+.clickable-row {
+    cursor: pointer;
+    transition: background 0.2s;
+}
+
+.clickable-row:hover {
+    background: rgba(59, 130, 246, 0.1) !important;
+}
