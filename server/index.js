@@ -51,9 +51,12 @@ if (process.env.NODE_ENV === 'production') {
     app.use(express.static(path.join(__dirname, '../client/dist')));
 
     // Catch-all: send all non-API requests to React
-    app.get('*', (req, res) => {
+    // Express 5 uses path-to-regexp v8 which requires /(*.) or fallback middleware
+    app.use((req, res, next) => {
         if (!req.path.startsWith('/api')) {
             res.sendFile(path.join(__dirname, '../client/dist/index.html'));
+        } else {
+            next();
         }
     });
 }
