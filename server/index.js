@@ -1,6 +1,6 @@
 const express = require('express');
 const cors = require('cors');
-const bcrypt = require('bcrypt');
+const bcrypt = require('bcryptjs');
 require('dotenv').config();
 
 const db = require('./config/db');
@@ -172,7 +172,7 @@ const initDatabase = async () => {
 };
 
 // Start server
-app.listen(PORT, async () => {
+app.listen(PORT, '0.0.0.0', async () => {
     console.log(`
 ╔══════════════════════════════════════════════════╗
 ║                                                  ║

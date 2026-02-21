@@ -1,5 +1,5 @@
 // Seed script to populate sample data
-const bcrypt = require('bcrypt');
+const bcrypt = require('bcryptjs');
 require('dotenv').config({ path: '../.env' });
 const db = require('../config/db');
 
