@@ -7,6 +7,8 @@ const pool = new Pool({
     database: process.env.DB_NAME || 'motelflow',
     user: process.env.DB_USER || 'postgres',
     password: process.env.DB_PASSWORD || 'postgres',
+    // Many cloud providers (like GCP and Render) require SSL connections
+    ssl: process.env.DB_SSL === 'true' ? { rejectUnauthorized: false } : undefined,
 });
 
 // Test database connection

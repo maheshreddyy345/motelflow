@@ -81,8 +81,6 @@ async function reseed() {
 
         // Delete in dependency order — use TRUNCATE CASCADE to handle all FKs
         await client.query('TRUNCATE night_audits, folio_payments, folio_charges, reservation_history, reservations, guests RESTART IDENTITY CASCADE');
-        // Also clear any other payment tables
-        try { await client.query('TRUNCATE payments RESTART IDENTITY CASCADE'); } catch (e) { /* may not exist */ }
 
         // Reset ALL room statuses
         await client.query(`UPDATE rooms SET status = 'vacant_clean', is_out_of_order = false, out_of_order_reason = NULL, out_of_order_since = NULL, updated_at = NOW()`);
